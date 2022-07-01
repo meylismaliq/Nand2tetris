@@ -19,15 +19,12 @@ class Codex():
                 if "M" in instr:
                     temp[2] = 1
                 return ''.join(str(i) for i in temp) 
-                print(temp)
-                print(''.join(str(i) for i in temp))
 
     @staticmethod
     def jump(instr):
         table_j = {None: '000', 'JGT':'001', 'JEQ':'010', 'JGE':'011', 
         'JLT': '100', 'JNE':'101', 'JLE': '110', 'JMP': '111' }
         if instr in table_j:
-            #print(table_j[instr])
             return table_j[instr] 
         else:
             sys.exit('Wrong jump input!')

@@ -21,13 +21,10 @@ symTable ={}
 ###########################################################
 
 with open(filename) as f_in:
-    #f_filter= filter((Parser.comment_white or None) , (line.strip() for line in f_in))
     f_filter= filter(None , (line.strip() for line in f_in))
     num = 0
     for i in (x for x in f_filter if not x.startswith('/')):
         i = i.partition('//')[0].strip()
-        #print(num)
-        #print(i)
         instruc = Parser.instructionType(i)
         if instruc=='L_INSTRUCTION':
             lab = Parser.symbol(i, instruc)
@@ -36,31 +33,23 @@ with open(filename) as f_in:
             num=num+1
     print(labels)
     symTable = {**predef_symTable, **labels }
-    #print(symTable)
+
 with open(hack_file,'w',encoding = 'utf-8') as f_write:
     with open(filename) as f_in:
-        #f_filter= filter((Parser.comment_white or None) , (line.strip() for line in f_in))
         f_filter= filter(None , (line.strip() for line in f_in))
 
         for i in (x for x in f_filter if not x.startswith('/')):
             i = i.partition('//')[0].strip()
-            #print(i)
             instruc = Parser.instructionType(i)
-            #print(instruc)
             if instruc =='C_INSTRUCTION':
-                #print(i)
                 dest_sym = Parser.dest(i, instruc)
-                #print(f'dest_sym:', dest_sym)
                 dest_bin = Codex.dest(dest_sym)
-                #print(dest_bin)
                 comp_sym = Parser.comp(i, instruc)
                 print(comp_sym)
                 comp_bin = Codex.comp(comp_sym)
                 print(comp_bin)
                 jump_sym = Parser.jump(i, instruc)
-                #print(jump_sym)
                 jump_bin = Codex.jump(jump_sym)
-                #print(jump_bin)
                 C_instr_bin = ('111'+ comp_bin+dest_bin+ jump_bin)
                 print(C_instr_bin)
                 f_write.write(C_instr_bin)
@@ -99,9 +88,6 @@ with open(hack_file,'w',encoding = 'utf-8') as f_write:
                             print(a_bin)
                             f_write.write(a_bin)
                             f_write.write('\n')
-print(labels)
-print(variables)
-print(predef_symTable)
                 
 
         
